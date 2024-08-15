@@ -1,0 +1,19 @@
+Concurrency By Stream:
+	-> Multiple kernels can be launched within a CUDA program, sequentially or in parallel. However, one must use CUDA streams for parallel kernel
+	launch.
+	-> In CUDA, stream refers to a single operation sequence on a GPU device.
+	-> If n kernels are invoked in parallel, n streams are needed to be used.
+	-> If one kernel is invoked, default stream "stream0" is used.
+
+	  kernel<<< blocks, threads, bytes >>>();    // default stream
+	  kernel<<< blocks, threads, bytes, 0 >>>(); // also default stream)
+	
+Asychronous Commands: 
+Examine more examples through videos or other stuff...
+
+
+
+All operations in CUDA default stream are synchronous.
+Which means cudaMemcpy() and kernel expressions(increment<<<1,N>>>(d_a) for example) are completely synchronous.
+
+GPU kernels are asynchronous with the host by default.

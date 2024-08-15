@@ -1,0 +1,24 @@
+Tiling:
+
+Global Memory - Large but slow
+Shared Memory - Small but fast
+
+Partitioning data into small subsets called tiles reduces memory traffic.
+NOTE: Tiles must be in the size of the shared memory.
+
+! Kernel computation on each tile can be performed seperately from each other.
+
+If two threads from the same warp are using the same information for calculation in several instances, then making a "tile" for that collection of infor-
+mation would decrease the global memory usage significantly.
+
+Tiling Algorithms:
+	-> If multiple threads request access to the same info from DRAM, they can merge their requests into one. 
+	However, they need to have the same schedule.
+	Because if they don't, then the requested information will stay for a long time in the on-chip memory, causing excessive on-chip memory requirement.
+
+	-> Hence, tiling algorithms ensure that mutually shared data(between threads) is stored into on-chip memory & accessed in close time intervals.
+	"Localizing accesses in both time and space"
+	-> In simple cases, tile dimensions are equal to those of a block's.
+
+	Try to understand better with a video.
+

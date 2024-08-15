@@ -1,0 +1,19 @@
+Barrier Synchronization and __syncthreads() Command:
+
+-> Barrier sync. is coordinating threads within the same block to coordinate their activities.
+-> __syncthreads() is executed in kernel and ensures that a particular thread waits until all other same block threads got to the same phase, acting like
+a mutex.
+
+-> Execution resources are assigned in units of blocks. Hence, a block can only start the execution after each thread in the block is allocated their
+relevant resources.
+This prevents excessive + indefinite waiting times by barrier synchronization.
+
+-> Transparent Scalability: The ability to execute same application code on hardware with different numbers of execution resources.
+For instance, a low-speck system would work 2 blocks simultanously while another higher-speck system can execute 8 blocks at the same time.
+* This increases the usability of applications and decreases the burden on application developers.
+
+
+! In order to ensure this, CUDA doesn't let barrier synchronization between threads within different blocks. This enables the blocks to be executed in
+any order, providing flexibility for transparent scalability.
+
+

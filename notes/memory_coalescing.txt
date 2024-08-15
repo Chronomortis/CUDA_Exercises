@@ -1,0 +1,33 @@
+Memory Coalescing: 
+
+Intro:
+	Effectively moving data from global memory to shared memory and registers for faster access.
+	-> Usually used together with tiling to utilize global memory bandwidth more effectively.
+
+	Global Memory: DRAM which takes a long time to take its contents(10 ns compared to sub-nanosecond clock cycles of data access speed)
+	Memory Access Throughput: DRAM's use of paralellism to increase rate of data access.
+
+	DRAM burst: When a point of DRAM is accessed, some points relative to that point is accessed as well. Hence, accessing those near points is faster compared to the normal points. 
+	This enables one to store relevant data to neighboring point in order to increase the memory access speed through this parallelity.
+
+Organizing memory access of threads into favorable patterns:
+-> Threads in a warp are executing the same thing that any time
+So if threads in a warp are accessing the consecutive global memory locations, the hardware coalesces(combines) these accesses into a singular access to consecutive
+DRAM locations.
+
+! As all threads in a warp execute the same instruction, they all execute the same iteration in the loop at any time
+
+Due to warp's nature, the consecutive memory locations are arranged in a row-major fashion.
+When all threads in a warp access a single row of consecutive data then memory coalescing happens.
+
+Alignment: When accessing words of size 1, 2, 4, 8, or 16 bytes and are aligned, compiler translates this to 1 global memory instruction.
+
+If size and alignment requirements are not met, then compiler would turn it into multiple memory access instructions.
+
+However, __align(x)__ forces the compiler to align.
+Such as "struct __align(16)__ {...};
+
+
+Corner Tuning:
+	-> Used when iterate through data along the row direction.
+	-> Memory coalescing through shared memory.

@@ -1,0 +1,49 @@
+Main CUDA Concepts:
+
+Granularity: Amount of computation in relation to transfer/communication of data
+	
+	-> Fine-grained: A lot of small individual tasks which mean lot of communication/transfer.
+	-> Coarse-grained: Large amount of computation with low amounts of communication(one very daunting task)
+
+A program is seperated into coarse-sub tasks and each of these tasks are given to a block.
+Then, each block seperates the coarse tasks into fine tasks that can be solved by individual threads within the block.
+
+Kernel: Basically a function for GPU in CUDA, executed in parallel by an array of threads.
+Threads have unique addresses used to compute memory addresses.
+
+Thread Organization:
+	Grid of Blocks(1) -> SMs(Streaming Multiprocessors-2) ->A Thread Block(3) -> Warp(4)
+
+1) How threads are arranged in CUDA architecture. The blocks within are independent from each other.
+   Blocks can be scheduled within any order and any number of cores.
+
+2) They all have a set of execution units, a set of registers and a chunk of shared memory.
+
+3) Threads within a block have access to a shared memory defined by the programmer. 
+The threads within a block can be synchronized
+
+4) Basic unit of execution within a NVIDIA GPU.
+   A collection of 32 threads.
+   Within an SM, a warp's threads are executed simultaneously.
+   Due to mapping between warps and thread blocks, keeping thread count as a multiple of 32 is good practice.
+
+CPU and GPU:
+	They have seperate memory spaces. So, data must be moved from host(CPU) and device(GPU) and the result must be carried back to the host at the end.
+	They share the global memory so this transfer must be done through the global memory, it can't occur through shared mem. or registers.
+
+Global Memory:
+	Available entirely to the CPU and GPU.
+	It is allocated from the CPU
+	Data is transfered here first for GPU to use.
+	It has long latency and relatively limited bandwidth.
+	Hence, it is not efficient to constantly use the global memory.
+
+How to reduce global memory usage?
+	-> Use shared memory of SMs to reduce trips for global memory(tiling)
+	-> More effectively move data from global memory to shared mem. and registers with coalescing.
+	-> Use caches that automate the coalescing process.
+
+! Main point of the memory hierarchy is to increase computations / global memory access ratio to increase execution speed.
+
+Speed Comparison Between Memories: Registers < Shared < Global
+

@@ -1,0 +1,7 @@
+Thread Divergence:
+	-> Control Divergence: Thread number must be a multiple of the block size so sometimes there might be additional threads that aren't necessary.
+	In these cases, the required computation count would be compared with the threadId to make unnecessary threads do nothing.
+
+	The bigger size of the computation, the smaller impact control divergence over the performance.
+	Ex: For 100 elements, control divergence will happen for %25 of the existing threads while it will be lesser than %1 for 10000 elements.
+! The performance impact of control divergence decreases as the number of data in the horizontal dimension increases.
